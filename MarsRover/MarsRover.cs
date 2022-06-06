@@ -2,24 +2,24 @@
 {
     public class MarsRover
     {
-        private Queue<string> compassPoints;
-        public MarsRover()
+        private LinkedList<char> compassPoints;
+        private Grid _grid;
+
+        public MarsRover(Grid grid)
         {
-            compassPoints = new Queue<string>(new[] { "N", "E", "S", "W" });
+            compassPoints = new LinkedList<char>(new[] { 'N', 'E', 'S', 'W' });
+            _grid = grid;
         }
         public string Execute(string directions)
         {
             int y = directions.Where(x => x == 'M').Count();
+            y = y % _grid.MaxY;
 
-            if (y >= 10) y -= 10;
+            char compass = Rotate.GetFinalDirection(directions, compassPoints);
 
-            int rightTurns = directions.Where(x => x == 'R').Count();
-
-            for (int i = 0; i < rightTurns; i++)
-            {
-                compassPoints.Enqueue(compassPoints.Dequeue());
-            }
-            return $"0:{y}:{compassPoints.Peek()}";
+            return $"0:{y}:{compass}";
         }
+
+
     }
 }
