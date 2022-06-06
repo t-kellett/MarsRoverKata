@@ -4,33 +4,42 @@ namespace MarsRover
 {
     public class Rotate
     {
-        public static char GetFinalDirection(string directions, LinkedList<char> points)
+        public static char GetFinalDirection(string directions)
         {
-            char direction = LeftOrRight(directions);
-            int Turns = directions.Where(x => x == direction).Count();
-            for (int i = 0; i < Turns; i++)
+            List<char> turns = ExtractTurns(directions);
+            return turns.Count() == 0 ? 'N' : CompassTurner(turns);
+        }
+
+        private static List<char> ExtractTurns(string directions)
+        {
+            List<char> onlyRotates = directions.Where(x => x == 'L' || x == 'R').ToList();
+            return onlyRotates;
+        }
+
+        private static LinkedList<char> GetCompass()
+        {
+            return new LinkedList<char>(new[] { 'N', 'E', 'S', 'W' });
+        }
+
+        private static char CompassTurner(List<char> turns)
+        {
+            LinkedList<char> compass = GetCompass();
+            foreach (char turn in turns)
             {
-                if (direction == 'R')
+                if (turn == 'R')
                 {
-                    var first = points.First;
-                    points.RemoveFirst();
-                    points.AddLast(first);
+                    var first = compass.First;
+                    compass.RemoveFirst();
+                    compass.AddLast(first);
                 }
-                else if (direction == 'L')
+                else if (turn == 'L')
                 {
-                    var last = points.Last;
-                    points.RemoveLast();
-                    points.AddFirst(last);
+                    var last = compass.Last;
+                    compass.RemoveLast();
+                    compass.AddFirst(last);
                 }
             }
-            return points.First.Value;
+            return compass.First.Value;
         }
-
-        private static char LeftOrRight(string directions)
-        {
-            char direction = directions.Count() > 0 ? directions.Distinct().ToList()[0] : 'N';
-            return direction;
-        }
-
     }
 }

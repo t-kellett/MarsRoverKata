@@ -5,18 +5,15 @@ namespace MarsRover.Test
 {
     public class RotateTest
     {
-        private LinkedList<char> compass;
 
-        [OneTimeSetUp]
-        public void SetUp()
+        [TestCase('W', "L")]
+        [TestCase('E', "R")]
+        [TestCase('S', "LLLLRR")]
+        [TestCase('N', "RLRLRLLRRRRR")]
+        [TestCase('W', "RRR")]
+        public void ShouldGetCorrectDirection(char output, string input)
         {
-            compass = new LinkedList<char>(new[] {'N', 'E', 'S', 'W'});
-        }
-
-        [Test]
-        public void ShouldGetCorrectDirection()
-        {
-            Assert.AreEqual('W', Rotate.GetFinalDirection("L", compass));
+            Assert.AreEqual(output, Rotate.GetFinalDirection(input));
         }
     }
 }
