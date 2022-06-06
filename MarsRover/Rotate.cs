@@ -4,42 +4,17 @@ namespace MarsRover
 {
     public class Rotate
     {
-        public static char GetFinalDirection(string directions)
+        public static char GetDirection(char turn, char previousDirection)
         {
-            List<char> turns = ExtractTurns(directions);
-            return turns.Count() == 0 ? 'N' : CompassTurner(turns);
+            List<char> compass = GetCompass();
+            if (turn.Equals('M')) return previousDirection;
+            return turn.Equals('R') ? compass[compass.IndexOf(previousDirection) + 1] : compass[compass.IndexOf(previousDirection) - 1];
+
         }
 
-        private static List<char> ExtractTurns(string directions)
+        private static List<char> GetCompass()
         {
-            List<char> onlyRotates = directions.Where(x => x == 'L' || x == 'R').ToList();
-            return onlyRotates;
-        }
-
-        private static LinkedList<char> GetCompass()
-        {
-            return new LinkedList<char>(new[] { 'N', 'E', 'S', 'W' });
-        }
-
-        private static char CompassTurner(List<char> turns)
-        {
-            LinkedList<char> compass = GetCompass();
-            foreach (char turn in turns)
-            {
-                if (turn == 'R')
-                {
-                    var first = compass.First;
-                    compass.RemoveFirst();
-                    compass.AddLast(first);
-                }
-                else if (turn == 'L')
-                {
-                    var last = compass.Last;
-                    compass.RemoveLast();
-                    compass.AddFirst(last);
-                }
-            }
-            return compass.First.Value;
+            return new List<char> { 'N', 'E', 'S', 'W' };
         }
     }
 }
