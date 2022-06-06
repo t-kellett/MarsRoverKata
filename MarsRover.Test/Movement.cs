@@ -3,7 +3,7 @@ using Moq;
 
 namespace MarsRover.Test
 {
-    public class Tests
+    public class MovementTests
     {
         private MarsRover rover;
         private Grid grid;
