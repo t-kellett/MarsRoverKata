@@ -6,15 +6,23 @@ namespace MarsRover
     {
         public static char GetDirection(char turn, char previousDirection)
         {
-            List<char> compass = GetCompass();
-            if (turn.Equals('M')) return previousDirection;
-            return turn.Equals('R') ? compass[compass.IndexOf(previousDirection) + 1] : compass[compass.IndexOf(previousDirection) - 1];
+            LinkedListNode<char> node = Compass().Find(previousDirection);
+            char direction = node.Value;
+            if (turn.Equals('R'))
+            {
+                direction = node.Next == null ? 'N' : node.Next.Value;
+            }
+            else
+            {
+                direction = node.Previous == null ? 'W' : node.Previous.Value;
 
+            }
+            return direction;
         }
 
-        private static List<char> GetCompass()
+        private static LinkedList<char> Compass()
         {
-            return new List<char> { 'N', 'E', 'S', 'W' };
+            return new LinkedList<char> (new char[] { 'N', 'E', 'S', 'W' });
         }
     }
 }
