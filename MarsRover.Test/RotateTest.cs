@@ -6,14 +6,12 @@ namespace MarsRover.Test
     public class RotateTest
     {
 
-        [TestCase('W', "L")]
-        [TestCase('E', "R")]
-        [TestCase('S', "LLLLRR")]
-        [TestCase('N', "RLRLRLLRRRRR")]
-        [TestCase('W', "RRR")]
-        public void ShouldGetCorrectDirection(char output, string input)
+        [TestCase('W', 'L', 'N')]
+        [TestCase('W', 'R', 'S')]
+
+        public void ShouldGetCorrectDirection(char output, char turn, char previousDirection)
         {
-            Assert.AreEqual(output, Rotate.GetFinalDirection(input));
+            Assert.AreEqual(output, Rotate.GetDirection(turn, previousDirection));
         }
     }
 }
